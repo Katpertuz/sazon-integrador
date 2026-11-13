@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import {useNavigate} from 'react-router-dom';
 
 /**
  * Colores característicos por marca (clave normalizada: minúsculas y sin tildes).
@@ -37,7 +38,8 @@ const copFormatter = new Intl.NumberFormat('es-CO', {
  * Es un componente de presentación: no conoce el contexto ni los filtros.
  */
 export default function ProductCard({ producto, onVerFicha }) {
-  const { nombre, marcaNombre, categoriaNombre, presentacion, precio, imagenUrl, imagenAlt } =
+  const navigate = useNavigate();
+  const { id, nombre, marcaNombre, categoriaNombre, presentacion, precio, imagenUrl, imagenAlt } =
     producto;
   const badgeStyle = BRAND_BADGE_STYLES[normalize(marcaNombre)] ?? DEFAULT_BADGE_STYLE;
 
@@ -74,7 +76,10 @@ export default function ProductCard({ producto, onVerFicha }) {
           </span>
           <button
             type="button"
-            onClick={() => onVerFicha?.(producto)}
+            onClick={() => {
+            onVerFicha?.(producto);
+            navigate(`/catalogo/${id}`);
+            }}
             aria-label={`Ver ficha de ${nombre}`}
             className="rounded-full bg-[#3D8E33] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#215B33] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7FBA00] focus-visible:ring-offset-2"
           >
